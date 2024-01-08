@@ -102,7 +102,7 @@ function getCurrentColor() {
 function changeColor(id) {
     let recoloredTile = document.getElementById(id)
     recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
-    console.log(`${id}color changed! `)
+    // console.log(`${id}color changed! `)
 }
 
 function rainbow() {
