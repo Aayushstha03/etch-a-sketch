@@ -4,6 +4,16 @@ const boardRes = document.getElementById('boardSize')
 let boardSize = 16;
 let buttonPressed = false
 
+window.addEventListener('mousedown', (event) => {
+    buttonPressed = true
+    console.log(event.button)
+})
+window.addEventListener('mouseup', (event) => {
+    buttonPressed = false
+    console.log(event.button)
+})
+
+
 let currentColor = 'white'
 
 const tileRows = [] //array
@@ -76,9 +86,11 @@ function getCurrentColor() {
 }
 
 function changeColor(id) {
-    let recoloredTile = document.getElementById(id)
-    recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
-    // console.log(`${id}color changed! `)
+    if (buttonPressed) {
+        let recoloredTile = document.getElementById(id)
+        recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
+        // console.log(`${id}color changed! `)
+    }
 }
 
 function rainbow() {
