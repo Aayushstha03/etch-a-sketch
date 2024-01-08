@@ -31,7 +31,7 @@ body {
 }
 
 .tile {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   /* padding: 10px; */
   flex: auto;
 }
@@ -52,28 +52,34 @@ body {
   flex: auto;
 }
 
-#boardButtons{
+#boardButtons {
   display: flex;
   gap: 50px;
 }
 
 #red {
   background-color: #ef476f;
+  border: 3px solid white;
 }
 #yellow {
   background-color: #ffd166;
+  border: 3px solid white;
 }
 #green {
   background-color: #06d6a0;
+  border: 3px solid white;
 }
 #blue {
   background-color: #118ab2;
+  border: 3px solid white;
 }
 #dark {
   background-color: #073b4c;
+  border: 3px solid white;
 }
 #white {
   background-color: #ffffff;
+  border: 3px solid white;
 }
 #eraser {
   background-color: bisque;

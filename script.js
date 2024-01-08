@@ -1,21 +1,4 @@
 const gameUI = document.querySelector('#gameUI')
-//color coed buttons
-const redBtn = document.getElementById('red')
-redBtn.addEventListener('click', () => currentColor = 'red')
-const yellowBtn = document.getElementById('yellow')
-yellowBtn.addEventListener('click', () => currentColor = 'yellow')
-const greenBtn = document.getElementById('green')
-greenBtn.addEventListener('click', () => currentColor = 'green')
-const blueBtn = document.getElementById('blue')
-blueBtn.addEventListener('click', () => currentColor = 'blue')
-const darkBtn = document.getElementById('dark')
-darkBtn.addEventListener('click', () => currentColor = 'dark')
-const whiteBtn = document.getElementById('white')
-whiteBtn.addEventListener('click', () => currentColor = 'white')
-const eraserBtn = document.getElementById('eraser')
-eraserBtn.addEventListener('click', () => currentColor = 'erased')
-const rainbowBtn = document.getElementById('rainbow')
-rainbowBtn.addEventListener('click', () => currentColor = 'rainbow')
 
 //board and ui vars
 let boardSize = 16;
@@ -109,4 +92,55 @@ function rainbow() {
     let colors = ["#ef476f", '#ffd166', '#06d6a0', '#118ab2', '#073b4c', '#ffffff']
     var color = colors[Math.floor(Math.random() * colors.length)];
     return color
+}
+
+//color coed buttons
+const redBtn = document.getElementById('red')
+redBtn.addEventListener('click', () => {
+    clearSelected()
+    redBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'red'
+})
+const yellowBtn = document.getElementById('yellow')
+yellowBtn.addEventListener('click', () => {
+    clearSelected()
+    yellowBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'yellow'
+})
+const greenBtn = document.getElementById('green')
+greenBtn.addEventListener('click', () => {
+    clearSelected()
+    greenBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'green'
+})
+const blueBtn = document.getElementById('blue')
+blueBtn.addEventListener('click', () => {
+    currentColor = 'blue'
+    clearSelected()
+    blueBtn.setAttribute('style', `border: 3px solid black;`)
+})
+const darkBtn = document.getElementById('dark')
+darkBtn.addEventListener('click', () => {
+    currentColor = 'dark'
+    clearSelected()
+    darkBtn.setAttribute('style', `border: 3px solid black;`)
+})
+const whiteBtn = document.getElementById('white')
+whiteBtn.addEventListener('click', () => {
+    currentColor = 'white'
+    clearSelected()
+    whiteBtn.setAttribute('style', `border: 3px solid black;`)
+})
+const eraserBtn = document.getElementById('eraser')
+eraserBtn.addEventListener('click', () => currentColor = 'erased')
+const rainbowBtn = document.getElementById('rainbow')
+rainbowBtn.addEventListener('click', () => currentColor = 'rainbow')
+
+function clearSelected() {
+    redBtn.removeAttribute('style')
+    yellowBtn.removeAttribute('style')
+    blueBtn.removeAttribute('style')
+    greenBtn.removeAttribute('style')
+    darkBtn.removeAttribute('style')
+    whiteBtn.removeAttribute('style')
 }
