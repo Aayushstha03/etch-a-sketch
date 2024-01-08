@@ -1,5 +1,5 @@
 const gameUI = document.querySelector('#gameUI')
-
+const boardRes = document.getElementById('boardSize')
 //board and ui vars
 let boardSize = 16;
 let buttonPressed = false
@@ -10,6 +10,7 @@ const tileRows = [] //array
 const tileCols = []
 
 function createBoard(boardSize) {
+    boardRes.textContent = `${boardSize} X ${boardSize}`
     const board = document.createElement('div')
     board.setAttribute('id', 'board')
     gameUI.appendChild(board)
