@@ -30,14 +30,6 @@ createBoard(boardSize) //game init
 
 // button that resizes the board
 // to be replaced by a slider later on
-const button = document.getElementById('size')
-button.addEventListener('click', () => resizeBoard())
-
-const resetBtn = document.getElementById('reset')
-resetBtn.addEventListener('click', () => {
-    board.remove()
-    createBoard(boardSize)
-})
 
 function resizeBoard() {
     let valid = false
@@ -131,10 +123,29 @@ whiteBtn.addEventListener('click', () => {
     clearSelected()
     whiteBtn.setAttribute('style', `border: 3px solid black;`)
 })
+
+const button = document.getElementById('size')
+button.addEventListener('click', () => resizeBoard())
+
+const resetBtn = document.getElementById('reset')
+resetBtn.addEventListener('click', () => {
+    board.remove()
+    createBoard(boardSize)
+})
+
 const eraserBtn = document.getElementById('eraser')
-eraserBtn.addEventListener('click', () => currentColor = 'erased')
+eraserBtn.addEventListener('click', () => {
+    currentColor = 'erased'
+    clearSelected()
+    eraserBtn.setAttribute('style', `border: 3px solid black;`)
+})
+
 const rainbowBtn = document.getElementById('rainbow')
-rainbowBtn.addEventListener('click', () => currentColor = 'rainbow')
+rainbowBtn.addEventListener('click', () => {
+    currentColor = 'rainbow'
+    clearSelected()
+    rainbowBtn.setAttribute('style', `border: 3px solid black;`)
+})
 
 function clearSelected() {
     redBtn.removeAttribute('style')
@@ -143,4 +154,6 @@ function clearSelected() {
     greenBtn.removeAttribute('style')
     darkBtn.removeAttribute('style')
     whiteBtn.removeAttribute('style')
+    eraserBtn.removeAttribute('style')
+    rainbowBtn.removeAttribute('style')
 }
