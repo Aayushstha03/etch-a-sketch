@@ -1,3 +1,9 @@
+
+
+html2canvas(document.querySelector("#capture")).then(canvas => {
+    document.body.appendChild(canvas)
+});
+
 const gameUI = document.querySelector('#gameUI')
 const boardRes = document.getElementById('boardSize')
 //board and ui vars
