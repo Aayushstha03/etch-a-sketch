@@ -6,11 +6,11 @@ let buttonPressed = false
 
 window.addEventListener('mousedown', (event) => {
     buttonPressed = true
-    console.log(event.button)
+    // console.log(event.button)
 })
 window.addEventListener('mouseup', (event) => {
     buttonPressed = false
-    console.log(event.button)
+    // console.log(event.button)
 })
 
 
@@ -62,6 +62,7 @@ function addEventListeners() {
     const tilesNodeList = document.querySelectorAll('.tile')
     for (const tile of tilesNodeList) {
         let id = tile.getAttribute('id')
+        tile.addEventListener(('mousedown'), () => changeColorOnce(id))
         tile.addEventListener(('mouseover'), () => changeColor(id))
     }
 }
@@ -91,6 +92,12 @@ function changeColor(id) {
         recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
         // console.log(`${id}color changed! `)
     }
+}
+
+function changeColorOnce(id) {
+    let recoloredTile = document.getElementById(id)
+    recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
+    // console.log(`${id}color changed! `)
 }
 
 function rainbow() {
