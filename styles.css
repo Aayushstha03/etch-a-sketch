@@ -16,6 +16,7 @@ body {
   background-color: bisque;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   gap: 20px;
   width: 50vw;
@@ -60,8 +61,15 @@ body {
   flex: auto;
 }
 
+.firstRow,
+.secondRow {
+  display: flex;
+  gap: 30px;
+}
+
 #boardButtons {
   display: flex;
+  flex-direction: column;
   gap: 30px;
 }
 
