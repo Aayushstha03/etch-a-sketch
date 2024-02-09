@@ -1,9 +1,88 @@
+//the board or div that houses the board
 const gameUI = document.querySelector('#gameUI')
+//var that displays the size of the board
 const boardRes = document.getElementById('boardSize')
 //board and ui vars
 let boardSize = 16;
 let buttonPressed = false
 
+//color coed buttons
+// TODO VERY VERY DRY CODE NEED TO OPTIMIZE!
+const redBtn = document.getElementById('red')
+redBtn.addEventListener('click', () => {
+    clearSelected()
+    redBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'red'
+})
+const yellowBtn = document.getElementById('yellow')
+yellowBtn.addEventListener('click', () => {
+    clearSelected()
+    yellowBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'yellow'
+})
+const greenBtn = document.getElementById('green')
+greenBtn.addEventListener('click', () => {
+    clearSelected()
+    greenBtn.setAttribute('style', `border: 3px solid black;`)
+    currentColor = 'green'
+})
+const blueBtn = document.getElementById('blue')
+blueBtn.addEventListener('click', () => {
+    currentColor = 'blue'
+    clearSelected()
+    blueBtn.setAttribute('style', `border: 3px solid black;`)
+})
+const darkBtn = document.getElementById('dark')
+darkBtn.addEventListener('click', () => {
+    currentColor = 'dark'
+    clearSelected()
+    darkBtn.setAttribute('style', `border: 3px solid black;`)
+})
+const whiteBtn = document.getElementById('white')
+whiteBtn.addEventListener('click', () => {
+    currentColor = 'white'
+    clearSelected()
+    whiteBtn.setAttribute('style', `border: 3px solid black;`)
+})
+
+// other buttons
+
+const button = document.getElementById('size')
+button.addEventListener('click', () => resizeBoard())
+
+const resetBtn = document.getElementById('reset')
+resetBtn.addEventListener('click', () => {
+    board.remove()
+    createBoard(boardSize)
+})
+
+const eraserBtn = document.getElementById('eraser')
+eraserBtn.addEventListener('click', () => {
+    currentColor = 'erased'
+    clearSelected()
+    eraserBtn.setAttribute('style', `border: 3px solid black;`)
+})
+
+const rainbowBtn = document.getElementById('rainbow')
+rainbowBtn.addEventListener('click', () => {
+    currentColor = 'rainbow'
+    clearSelected()
+    rainbowBtn.setAttribute('style', `border: 3px solid black;`)
+})
+
+const bucketFillBtn = document.getElementById('bucketFill')
+bucketFillBtn.addEventListener('click', () => {
+    bucketFill = true
+    clearSelected()
+    bucketFillBtn.setAttribute('style', `border: 3px solid black;`)
+})
+
+//the screenshot button and its function
+const cameraBtn = document.getElementById('camera')
+cameraBtn.addEventListener('click', () => downloadImage())
+
+
+// logic to handle mouse holds for drawing the pixels
 window.addEventListener('mousedown', (event) => {
     buttonPressed = true
     // console.log(event.button)
@@ -15,6 +94,7 @@ window.addEventListener('mouseup', (event) => {
 
 
 let currentColor = 'white'
+let bucketFill = false
 
 const tileRows = [] //array
 const tileCols = []
@@ -35,13 +115,13 @@ function createBoard(boardSize) {
             tileRows[i].appendChild(tileCols[j])
         }
     }
+    whiteBtn.setAttribute('style', `border: 3px solid black;`)
     addEventListeners()
 }
 createBoard(boardSize) //game init
 
 // button that resizes the board
-// to be replaced by a slider later on
-
+// TODO to be replaced by a slider later on
 function resizeBoard() {
     let valid = false
     boardSize = prompt("Enter the desired resolution (1<=x<=50)")
@@ -86,19 +166,33 @@ function getCurrentColor() {
         return 'bisque';
 }
 
-function changeColor(id) {
-    if (buttonPressed) {
+//coloring functions 
+//also handles case of floodFilling algorithm
+function changeColorOnce(id) {
+    if (bucketFill) {
+        let colorToFill = document.getElementById(id).getAttribute('background-color')
+        console.log(colorToFill)
+        floodFill(id)
+    }
+    else {
         let recoloredTile = document.getElementById(id)
         recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
-        // console.log(`${id}color changed! `)
+        // console.log(`${id} color changed! `)
     }
 }
 
-function changeColorOnce(id) {
-    let recoloredTile = document.getElementById(id)
-    recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
-    // console.log(`${id}color changed! `)
+function changeColor(id) {
+    if (buttonPressed) {
+        if (bucketFill)
+            floodFill(id)
+        else {
+            let recoloredTile = document.getElementById(id)
+            recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
+            // console.log(`${id}color changed! `)
+        }
+    }
 }
+
 
 function rainbow() {
     let colors = ["#ef476f", '#ffd166', '#06d6a0', '#118ab2', '#073b4c', '#ffffff']
@@ -106,67 +200,15 @@ function rainbow() {
     return color
 }
 
-//color coed buttons
-const redBtn = document.getElementById('red')
-redBtn.addEventListener('click', () => {
-    clearSelected()
-    redBtn.setAttribute('style', `border: 3px solid black;`)
-    currentColor = 'red'
-})
-const yellowBtn = document.getElementById('yellow')
-yellowBtn.addEventListener('click', () => {
-    clearSelected()
-    yellowBtn.setAttribute('style', `border: 3px solid black;`)
-    currentColor = 'yellow'
-})
-const greenBtn = document.getElementById('green')
-greenBtn.addEventListener('click', () => {
-    clearSelected()
-    greenBtn.setAttribute('style', `border: 3px solid black;`)
-    currentColor = 'green'
-})
-const blueBtn = document.getElementById('blue')
-blueBtn.addEventListener('click', () => {
-    currentColor = 'blue'
-    clearSelected()
-    blueBtn.setAttribute('style', `border: 3px solid black;`)
-})
-const darkBtn = document.getElementById('dark')
-darkBtn.addEventListener('click', () => {
-    currentColor = 'dark'
-    clearSelected()
-    darkBtn.setAttribute('style', `border: 3px solid black;`)
-})
-const whiteBtn = document.getElementById('white')
-whiteBtn.addEventListener('click', () => {
-    currentColor = 'white'
-    clearSelected()
-    whiteBtn.setAttribute('style', `border: 3px solid black;`)
-})
+function floodFill(id) {
+    const stack = []
+    stack.push(id)
+    // while (stack.length !== 0)
 
-const button = document.getElementById('size')
-button.addEventListener('click', () => resizeBoard())
 
-const resetBtn = document.getElementById('reset')
-resetBtn.addEventListener('click', () => {
-    board.remove()
-    createBoard(boardSize)
-})
+}
 
-const eraserBtn = document.getElementById('eraser')
-eraserBtn.addEventListener('click', () => {
-    currentColor = 'erased'
-    clearSelected()
-    eraserBtn.setAttribute('style', `border: 3px solid black;`)
-})
-
-const rainbowBtn = document.getElementById('rainbow')
-rainbowBtn.addEventListener('click', () => {
-    currentColor = 'rainbow'
-    clearSelected()
-    rainbowBtn.setAttribute('style', `border: 3px solid black;`)
-})
-
+//clearing the attributes of a selected button
 function clearSelected() {
     redBtn.removeAttribute('style')
     yellowBtn.removeAttribute('style')
@@ -176,10 +218,9 @@ function clearSelected() {
     whiteBtn.removeAttribute('style')
     eraserBtn.removeAttribute('style')
     rainbowBtn.removeAttribute('style')
+    bucketFillBtn.removeAttribute('style')
 }
 
-const cameraBtn = document.getElementById('camera')
-cameraBtn.addEventListener('click', () => downloadImage())
 
 function downloadImage() {
     html2canvas(document.body, backgroundColor = 'bisque').then(function (canvas) {
