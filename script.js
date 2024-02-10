@@ -111,7 +111,14 @@ function createBoard(boardSize) {
         board.appendChild(tileRows[i])//adding divs to the board!!!
         for (let j = 0; j < boardSize; j++) {
             tileCols[j] = document.createElement('div')
-            tileCols[j].setAttribute('id', `${i + 1},${j + 1}`)
+            if (i < 10 && j < 10)
+                tileCols[j].setAttribute('id', ` ${i + 1}, ${j + 1}`)
+            else if (i < 10 && j >= 10)
+                tileCols[j].setAttribute('id', ` ${i + 1},${j + 1}`)
+            else if (i >= 10 && j < 10)
+                tileCols[j].setAttribute('id', `${i + 1}, ${j + 1}`)
+            else
+                tileCols[j].setAttribute('id', `${i + 1},${j + 1}`)
             tileCols[j].setAttribute('class', `tile`)
             tileRows[i].appendChild(tileCols[j])
         }
@@ -172,11 +179,16 @@ function getCurrentColor() {
 function changeColorOnce(id) {
     if (bucketFill) {
 
+        let id_x = String(id).substring(0, 2)
+        console.log(id_x)
+        let id_y = String(id).substring(3)
+        console.log(id_y)
         let colorToFill = document.getElementById(id).getAttribute('style')
-        console.log((colorToFill.substring(18)).substring(0, 7))
+        // console.log((colorToFill.substring(18)).substring(0, 7))
         //we get the current color of the tile as well as its id and 
         // pass it to the floodFill function for coloring
-        floodFill(id, (colorToFill.substring(18)).substring(0, 7))
+        floodFill(id_x, id_y, (colorToFill.substring(18)).substring(0, 7))
+
     }
     else {
         let recoloredTile = document.getElementById(id)
@@ -205,24 +217,21 @@ function rainbow() {
 }
 
 //flood/bucket filling function
-function floodFill(id, colorToFill) {
+function floodFill(id_x, id_y, colorToFill) {
+    // floodFill(id_x + 1, id_y + 1, colorToFill)
 
 
-    stack.push(id)
 
 
-    while (stack.length !== 0) {
-        let n = stack[0]
-        stack.remove[0]
-
-    }
-
-    stack.forEach(element => {
-        console.log(element)
-        stack.pop()
-    });
-
-
+    // How stupid am i ko proof
+    // const tilesNodeList = document.querySelectorAll('.tile')
+    // for (const tile of tilesNodeList) {
+    //     if (tile.getAttribute('style') === null)
+    //         continue
+    //     else if ((tile.getAttribute('style').substring(18)).substring(0, 7) === colorToFill)
+    //         tile.setAttribute('style', `background-color: ${getCurrentColor()};`)
+    //     // console.log((tile.getAttribute('style')))
+    // }
 }
 
 //clearing the attributes of a selected button
