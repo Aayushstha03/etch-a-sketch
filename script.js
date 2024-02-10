@@ -75,7 +75,7 @@ bucketFillBtn.addEventListener('click', () => {
     clearSelected()
     //reset then set value as true lol
     bucketFill = true
-    bucketFillBtn.setAttribute('style', `border: 3px solid black;`)
+    bucketFillBtn.setAttribute('style', `border: 3px solid ${getCurrentColor()};`)
 })
 
 //the screenshot button and its function
@@ -182,17 +182,18 @@ function getCurrentColor() {
 function changeColorOnce(id) {
     if (bucketFill) {
         let colorToFill = (document.getElementById(id).getAttribute('style'))
+
+        //splitting id into x and t comps for floodFill
         let idComponents = String(id).split(',')
         let id_x = parseInt(idComponents[0])
-        // console.log(`id_x' = ${id_x}`)
         let id_y = parseInt(idComponents[1])
-        console.log(id_y)
+
+        //to handle attribute is null error
         if (colorToFill != null)
             colorToFill = (document.getElementById(id).getAttribute('style').substring(18)).substring(0, 7)
-        // console.log(colorToFill)
         //we get the current color of the tile as well as its id and 
         // pass it to the floodFill function for coloring
-        floodFill(id_x, id_y, colorToFill)
+        floodFill(id, id_x, id_y, colorToFill)
     }
     else {
         let recoloredTile = document.getElementById(id)
@@ -220,14 +221,26 @@ function rainbow() {
     return color
 }
 
+function checkValidForFloodFill(id_x, id_y) {
+    if ((id_x >= 0 && id_x <= boardSize)
+        && (id_y >= 0 && id_y <= boardSize))
+        return true
+    else
+        return false
+}
+
 //flood/bucket filling function
-function floodFill(id_x, id_y, colorToFill) {
-    // floodFill(id_x + 1, id_y + 1, colorToFill)
-    // console.log(`${id_x},${id_y}`)
-    let fillTile = document.getElementById(`${id_x},${id_y}`)
-    // console.log(fillTile.getAttribute('style'))
+function floodFill(id, id_x, id_y, colorToFill) {
+    console.log(id_x, id_y)
+    let tileToStartFloodFill = document.getElementById(id)
 
+    // unga bunga same thing wait think 
 
+    if (tileToStartFloodFill.getAttribute('style') === null)
+        return
+    else
+        if ((tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7) === colorToFill)
+            console.log('recolor!')
 
 
     // How stupid am i ko proof
