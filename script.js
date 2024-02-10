@@ -72,8 +72,9 @@ rainbowBtn.addEventListener('click', () => {
 
 const bucketFillBtn = document.getElementById('bucketFill')
 bucketFillBtn.addEventListener('click', () => {
-    bucketFill = true
     clearSelected()
+    //reset then set value as true lol
+    bucketFill = true
     bucketFillBtn.setAttribute('style', `border: 3px solid black;`)
 })
 
@@ -170,9 +171,12 @@ function getCurrentColor() {
 //also handles case of floodFilling algorithm
 function changeColorOnce(id) {
     if (bucketFill) {
-        let colorToFill = document.getElementById(id).getAttribute('background-color')
-        console.log(colorToFill)
-        floodFill(id)
+
+        let colorToFill = document.getElementById(id).getAttribute('style')
+        console.log((colorToFill.substring(18)).substring(0, 7))
+        //we get the current color of the tile as well as its id and 
+        // pass it to the floodFill function for coloring
+        floodFill(id, (colorToFill.substring(18)).substring(0, 7))
     }
     else {
         let recoloredTile = document.getElementById(id)
@@ -193,22 +197,36 @@ function changeColor(id) {
     }
 }
 
-
+//rainbow coloring function
 function rainbow() {
     let colors = ["#ef476f", '#ffd166', '#06d6a0', '#118ab2', '#073b4c', '#ffffff']
     var color = colors[Math.floor(Math.random() * colors.length)];
     return color
 }
 
-function floodFill(id) {
-    const stack = []
+//flood/bucket filling function
+function floodFill(id, colorToFill) {
+
+
     stack.push(id)
-    // while (stack.length !== 0)
+
+
+    while (stack.length !== 0) {
+        let n = stack[0]
+        stack.remove[0]
+
+    }
+
+    stack.forEach(element => {
+        console.log(element)
+        stack.pop()
+    });
 
 
 }
 
 //clearing the attributes of a selected button
+//also used for clearing bucketFill button induced status
 function clearSelected() {
     redBtn.removeAttribute('style')
     yellowBtn.removeAttribute('style')
@@ -218,7 +236,9 @@ function clearSelected() {
     whiteBtn.removeAttribute('style')
     eraserBtn.removeAttribute('style')
     rainbowBtn.removeAttribute('style')
+
     bucketFillBtn.removeAttribute('style')
+    bucketFill = false
 }
 
 
