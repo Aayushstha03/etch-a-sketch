@@ -111,14 +111,17 @@ function createBoard(boardSize) {
         board.appendChild(tileRows[i])//adding divs to the board!!!
         for (let j = 0; j < boardSize; j++) {
             tileCols[j] = document.createElement('div')
+
+            //setting up tile ids
             if (i < 10 && j < 10)
                 tileCols[j].setAttribute('id', ` ${i + 1}, ${j + 1}`)
             else if (i < 10 && j >= 10)
                 tileCols[j].setAttribute('id', ` ${i + 1},${j + 1}`)
-            else if (i >= 10 && j < 10)
+            else if (j < 10 && i >= 10)
                 tileCols[j].setAttribute('id', `${i + 1}, ${j + 1}`)
-            else
+            else if (i >= 10 && j >= 10)
                 tileCols[j].setAttribute('id', `${i + 1},${j + 1}`)
+            //finish tile id 
             tileCols[j].setAttribute('class', `tile`)
             tileRows[i].appendChild(tileCols[j])
         }
@@ -178,17 +181,18 @@ function getCurrentColor() {
 //also handles case of floodFilling algorithm
 function changeColorOnce(id) {
     if (bucketFill) {
-
-        let id_x = String(id).substring(0, 2)
-        console.log(id_x)
-        let id_y = String(id).substring(3)
+        let colorToFill = (document.getElementById(id).getAttribute('style'))
+        let idComponents = String(id).split(',')
+        let id_x = parseInt(idComponents[0])
+        // console.log(`id_x' = ${id_x}`)
+        let id_y = parseInt(idComponents[1])
         console.log(id_y)
-        let colorToFill = document.getElementById(id).getAttribute('style')
-        // console.log((colorToFill.substring(18)).substring(0, 7))
+        if (colorToFill != null)
+            colorToFill = (document.getElementById(id).getAttribute('style').substring(18)).substring(0, 7)
+        // console.log(colorToFill)
         //we get the current color of the tile as well as its id and 
         // pass it to the floodFill function for coloring
-        floodFill(id_x, id_y, (colorToFill.substring(18)).substring(0, 7))
-
+        floodFill(id_x, id_y, colorToFill)
     }
     else {
         let recoloredTile = document.getElementById(id)
@@ -219,6 +223,9 @@ function rainbow() {
 //flood/bucket filling function
 function floodFill(id_x, id_y, colorToFill) {
     // floodFill(id_x + 1, id_y + 1, colorToFill)
+    // console.log(`${id_x},${id_y}`)
+    let fillTile = document.getElementById(`${id_x},${id_y}`)
+    // console.log(fillTile.getAttribute('style'))
 
 
 
