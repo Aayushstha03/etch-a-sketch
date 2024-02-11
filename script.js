@@ -221,13 +221,13 @@ function rainbow() {
 }
 
 function checkValidForFloodFill(id_x, id_y) {
-    if ((id_x > 0 && id_x <= boardSize)
-        && (id_y > 0 && id_y <= boardSize)) {
-        // console.log(`Can recolor! ${id_x},${id_y}`)
+    if ((id_x > 0 && id_x < boardSize)
+        && (id_y > 0 && id_y < boardSize)) {
+        console.log(`Can recolor! ${id_x},${id_y}`)
         return true
     }
     else {
-        // console.log(`Cannot recolor! ${id_x},${id_y}`)
+        console.log(`Cannot recolor! ${id_x},${id_y}`)
         return false
     }
 }
