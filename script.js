@@ -224,33 +224,36 @@ function rainbow() {
 function checkValidForFloodFill(id_x, id_y) {
     if ((id_x > 0 && id_x <= boardSize)
         && (id_y > 0 && id_y <= boardSize)) {
-        console.log(`Can recolor! ${id_x},${id_y}`)
+        // console.log(`Can recolor! ${id_x},${id_y}`)
         return true
     }
     else {
+        // console.log(`Cannot recolor! ${id_x},${id_y}`)
         return false
-        console.log(`Cannot recolor! ${id_x},${id_y}`)
     }
 }
 
 function convertToValidID(id_x, id_y) {
+
+    // TODO fix double digit number handling
     let convertedId;
     if (id_x < 10 && id_y < 10)
         convertedId = (" " + (id_x) + ", " + (id_y))
     else if (id_x < 10 && id_y >= 10)
         convertedId = (" " + (id_x) + "," + (id_y))
-    else if (id_x >= 10 && id_y < 10)
-        convertedId = ("" + (id_x) + ", " + (id_y))
+    else if (id_y < 10 && id_x >= 10)
+        convertedId = ((id_x) + ", " + (id_y))
     else if (id_x >= 10 && id_y >= 10)
-        convertedId = ("" + (id_x) + "," + (id_y))
+        convertedId = ((id_x) + "," + (id_y))
 
-    // console.log(convertedId)
+    // console.log(`=>${convertedId}`)
     return convertedId
 }
 
 //flood/bucket filling function
 function floodFill(id, id_x, id_y, colorToFill) {
     // console.log(id_x, id_y)
+    console.log(`=>${id}`)
     let tileToStartFloodFill = document.getElementById(id)
 
     if (tileToStartFloodFill.getAttribute('style') === null)
@@ -258,7 +261,7 @@ function floodFill(id, id_x, id_y, colorToFill) {
     else
         if ((tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7) === colorToFill) {
             tileToStartFloodFill.setAttribute('style', `background-color: ${getCurrentColor()};`);
-            console.log(`recolor!  to ${currentColor}`)
+            // console.log(`recolor!  to ${currentColor}`)
             if (checkValidForFloodFill(id_x + 1, id_y))
                 floodFill(convertToValidID(id_x + 1, id_y), id_x + 1, id_y, colorToFill)
             if (checkValidForFloodFill(id_x - 1, id_y))
