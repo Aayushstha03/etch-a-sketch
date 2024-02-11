@@ -197,7 +197,7 @@ function changeColorOnce(id) {
     }
     else {
         let recoloredTile = document.getElementById(id)
-        recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
+        recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`)
         // console.log(`${id} color changed! `)
     }
 }
@@ -208,7 +208,7 @@ function changeColor(id) {
             floodFill(id)
         else {
             let recoloredTile = document.getElementById(id)
-            recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`);
+            recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`)
             // console.log(`${id}color changed! `)
         }
     }
@@ -223,35 +223,50 @@ function rainbow() {
 
 function checkValidForFloodFill(id_x, id_y) {
     if ((id_x >= 0 && id_x <= boardSize)
-        && (id_y >= 0 && id_y <= boardSize))
+        && (id_y >= 0 && id_y <= boardSize)) {
+        console.log(`Can recolor! ${id_x},${id_y}`)
         return true
+    }
     else
         return false
 }
 
+function convertToValidID(id_x, id_y) {
+    let convertedId;
+    if (id_x < 10 && id_y < 10)
+        convertedId = (" " + (id_x) + ", " + (id_y))
+    else if (id_x < 10 && id_y >= 10)
+        convertedId = (" " + (id_x) + "," + (id_y))
+    else if (id_x >= 10 && id_y < 10)
+        convertedId = ("" + (id_x) + ", " + (id_y))
+    else if (id_x >= 10 && id_y >= 10)
+        convertedId = ("" + (id_x) + "," + (id_y))
+
+    // console.log(convertedId)
+    return convertedId
+}
+
 //flood/bucket filling function
 function floodFill(id, id_x, id_y, colorToFill) {
-    console.log(id_x, id_y)
+    // console.log(id_x, id_y)
     let tileToStartFloodFill = document.getElementById(id)
 
-    // unga bunga same thing wait think 
-
     if (tileToStartFloodFill.getAttribute('style') === null)
-        return
+        return //donot color null/ uninit tiles
     else
-        if ((tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7) === colorToFill)
-            console.log('recolor!')
-
-
-    // How stupid am i ko proof
-    // const tilesNodeList = document.querySelectorAll('.tile')
-    // for (const tile of tilesNodeList) {
-    //     if (tile.getAttribute('style') === null)
-    //         continue
-    //     else if ((tile.getAttribute('style').substring(18)).substring(0, 7) === colorToFill)
-    //         tile.setAttribute('style', `background-color: ${getCurrentColor()};`)
-    //     // console.log((tile.getAttribute('style')))
-    // }
+        if ((tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7) === colorToFill) {
+            tileToStartFloodFill.setAttribute('style', `background-color: ${getCurrentColor()};`);
+            console.log(`recolor!  to ${currentColor}`)
+            if (checkValidForFloodFill(id_x + 1, id_y))
+                floodFill(convertToValidID(id_x + 1, id_y), id_x + 1, id_y, colorToFill)
+            if (checkValidForFloodFill(id_x - 1, id_y))
+                floodFill(convertToValidID(id_x - 1, id_y), id_x - 1, id_y, colorToFill)
+            if (checkValidForFloodFill(id_x, id_y + 1))
+                floodFill(convertToValidID(id_x, id_y + 1), id_x, id_y + 1, colorToFill)
+            if (checkValidForFloodFill(id_x, id_y - 1))
+                floodFill(convertToValidID(id_x, id_y - 1), id_x, id_y - 1, colorToFill)
+        }
+    //no neeed to self shame
 }
 
 //clearing the attributes of a selected button
