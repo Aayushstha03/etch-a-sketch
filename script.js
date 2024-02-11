@@ -105,22 +105,21 @@ function createBoard(boardSize) {
     const board = document.createElement('div')
     board.setAttribute('id', 'board')
     gameUI.appendChild(board)
-    for (let i = 0; i < boardSize; i++) {
+    for (let i = 1; i < boardSize; i++) {
         tileRows[i] = document.createElement('div')
         tileRows[i].setAttribute('id', 'tileRow')
         board.appendChild(tileRows[i])//adding divs to the board!!!
-        for (let j = 0; j < boardSize; j++) {
+        for (let j = 1; j < boardSize; j++) {
             tileCols[j] = document.createElement('div')
-
             //setting up tile ids
             if (i < 10 && j < 10)
-                tileCols[j].setAttribute('id', ` ${i + 1}, ${j + 1}`)
+                tileCols[j].setAttribute('id', ` ${i}, ${j}`)
             else if (i < 10 && j >= 10)
-                tileCols[j].setAttribute('id', ` ${i + 1},${j + 1}`)
+                tileCols[j].setAttribute('id', ` ${i},${j}`)
             else if (j < 10 && i >= 10)
-                tileCols[j].setAttribute('id', `${i + 1}, ${j + 1}`)
-            else if (i >= 10 && j >= 10)
-                tileCols[j].setAttribute('id', `${i + 1},${j + 1}`)
+                tileCols[j].setAttribute('id', `${i}, ${j}`)
+            else if (j >= 10 && i >= 10)
+                tileCols[j].setAttribute('id', `${i},${j}`)
             //finish tile id 
             tileCols[j].setAttribute('class', `tile`)
             tileRows[i].appendChild(tileCols[j])
