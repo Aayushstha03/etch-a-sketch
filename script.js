@@ -58,7 +58,7 @@ resetBtn.addEventListener('click', () => {
 
 const eraserBtn = document.getElementById('eraser')
 eraserBtn.addEventListener('click', () => {
-    currentColor = 'erased'
+    currentColor = 'white'
     clearSelected()
     eraserBtn.setAttribute('style', `border: 3px solid black;`)
 })
@@ -122,6 +122,7 @@ function createBoard(boardSize) {
                 tileCols[j].setAttribute('id', `${i},${j}`)
             //finish tile id 
             tileCols[j].setAttribute('class', `tile`)
+            tileCols[j].setAttribute('style', `background-color: #ffffff;`)
             tileRows[i].appendChild(tileCols[j])
         }
     }
@@ -172,8 +173,6 @@ function getCurrentColor() {
         return '#073b4c';
     else if (currentColor === 'white')
         return '#ffffff';
-    else if (currentColor === 'erased')
-        return 'bisque';
 }
 
 //coloring functions 
