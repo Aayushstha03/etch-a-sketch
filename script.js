@@ -77,11 +77,13 @@ bucketFillBtn.addEventListener("click", () => {
 let mirrorY = false;
 const mirrorYaxisBtn = document.getElementById("mirrorY");
 mirrorYaxisBtn.addEventListener("click", () => {
-    if (mirrorY == false) {
-        mirrorY = !mirrorY;
+    if (mirrorY === false) {
+        mirrorY = true;
+        console.log(mirrorY);
         mirrorYaxisBtn.setAttribute("style", `border: 3px solid black;`);
-    } else if (mirrorY == true) {
-        mirrorY = !mirrorY;
+    } else if (mirrorY === true) {
+        mirrorY = false;
+        console.log(mirrorY);
         mirrorYaxisBtn.removeAttribute("style");
     }
 });
@@ -210,7 +212,24 @@ function changeColorOnce(id) {
             "style",
             `background-color: ${getCurrentColor()};`
         );
+        if (mirrorY) mirrorYplot(id);
         // console.log(`${id} color changed! `)
+    }
+}
+
+function mirrorYplot(id) {
+    let axisOfReflection;
+    if (boardSize % 2 != 0) {
+        console.log(id)
+        axisOfReflection = parseInt(boardSize / 2);
+        console.log(axisOfReflection)
+        let idComponents = String(id).split(",");
+        let id_x = parseInt(idComponents[0]);
+        let id_y = parseInt(idComponents[1]);
+        console.log(convertToValidID(id_x + (axisOfReflection - id_x), id_y))
+
+        let recoloredTile = document.getElementById(convertToValidID(id_x + (axisOfReflection - id_x), id_y));
+        recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
     }
 }
 
@@ -250,7 +269,6 @@ function checkValidForFloodFill(id_x, id_y) {
 }
 
 function convertToValidID(id_x, id_y) {
-    // TODO fix double digit number handling
     let convertedId;
     if (id_x < 10 && id_y < 10) convertedId = " " + id_x + ", " + id_y;
     else if (id_x < 10 && id_y >= 10) convertedId = " " + id_x + "," + id_y;
