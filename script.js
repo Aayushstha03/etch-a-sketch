@@ -47,14 +47,6 @@ whiteBtn.addEventListener('click', () => {
 
 // other buttons
 
-const button = document.getElementById('size')
-button.addEventListener('click', () => resizeBoard())
-
-const resetBtn = document.getElementById('reset')
-resetBtn.addEventListener('click', () => {
-    board.remove()
-    createBoard(boardSize)
-})
 
 const eraserBtn = document.getElementById('eraser')
 eraserBtn.addEventListener('click', () => {
@@ -78,17 +70,25 @@ bucketFillBtn.addEventListener('click', () => {
     bucketFillBtn.setAttribute('style', `border: 3px solid ${getCurrentColor()};`)
 })
 
+const resizeButton = document.getElementById('size')
+resizeButton.addEventListener('click', () => resizeBoard())
+
+const resetBtn = document.getElementById('reset')
+resetBtn.addEventListener('click', () => {
+    board.remove()
+    createBoard(boardSize)
+})
 //the screenshot button and its function
 const cameraBtn = document.getElementById('camera')
 cameraBtn.addEventListener('click', () => downloadImage())
 
 
 // logic to handle mouse holds for drawing the pixels
-window.addEventListener('mousedown', (event) => {
+window.addEventListener('mousedown', () => {
     buttonPressed = true
     // console.log(event.button)
 })
-window.addEventListener('mouseup', (event) => {
+window.addEventListener('mouseup', () => {
     buttonPressed = false
     // console.log(event.button)
 })
@@ -179,19 +179,14 @@ function getCurrentColor() {
 //also handles case of floodFilling algorithm
 function changeColorOnce(id) {
     if (bucketFill) {
-        let colorToFill = (document.getElementById(id).getAttribute('style'))
-
+        let colorToBucketFillOver = (document.getElementById(id).getAttribute('style').substring(18)).substring(0, 7)
         //splitting id into x and t comps for floodFill
         let idComponents = String(id).split(',')
         let id_x = parseInt(idComponents[0])
         let id_y = parseInt(idComponents[1])
-
-        //to handle attribute is null error
-        if (colorToFill != null)
-            colorToFill = (document.getElementById(id).getAttribute('style').substring(18)).substring(0, 7)
         //we get the current color of the tile as well as its id and 
         // pass it to the floodFill function for coloring
-        floodFill(id, id_x, id_y, colorToFill)
+        floodFill(id, id_x, id_y, colorToBucketFillOver)
     }
     else {
         let recoloredTile = document.getElementById(id)
@@ -202,13 +197,9 @@ function changeColorOnce(id) {
 
 function changeColor(id) {
     if (buttonPressed) {
-        if (bucketFill)
-            floodFill(id)
-        else {
-            let recoloredTile = document.getElementById(id)
-            recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`)
-            // console.log(`${id}color changed! `)
-        }
+        let recoloredTile = document.getElementById(id)
+        recoloredTile.setAttribute('style', `background-color: ${getCurrentColor()};`)
+        // console.log(`${id}color changed! `)
     }
 }
 
@@ -222,11 +213,11 @@ function rainbow() {
 function checkValidForFloodFill(id_x, id_y) {
     if ((id_x > 0 && id_x < boardSize)
         && (id_y > 0 && id_y < boardSize)) {
-        console.log(`Can recolor! ${id_x},${id_y}`)
+        // console.log(`Can recolor! ${id_x},${id_y}`)
         return true
     }
     else {
-        console.log(`Cannot recolor! ${id_x},${id_y}`)
+        // console.log(`Cannot recolor! ${id_x},${id_y}`)
         return false
     }
 }
@@ -249,26 +240,31 @@ function convertToValidID(id_x, id_y) {
 }
 
 //flood/bucket filling function
-function floodFill(id, id_x, id_y, colorToFill) {
+function floodFill(id, id_x, id_y, colorToBucketFillOver) {
     // console.log(id_x, id_y)
-    console.log(`=>${id}`)
+    // console.log(`=>${id}`)
     let tileToStartFloodFill = document.getElementById(id)
+    let colorOfCurrentTile = (tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7)
+    // console.log(`CurrentTileColor = ${colorOfCurrentTile}`)
+    if (colorToBucketFillOver === getCurrentColor()) {
+        console.log("Same color not going throught it!")
+        return //no else cause returning if waste of time
+    }
 
-    if (tileToStartFloodFill.getAttribute('style') === null)
-        return //donot color null/ uninit tiles
-    else
-        if ((tileToStartFloodFill.getAttribute('style').substring(18)).substring(0, 7) === colorToFill) {
-            tileToStartFloodFill.setAttribute('style', `background-color: ${getCurrentColor()};`);
-            // console.log(`recolor!  to ${currentColor}`)
-            if (checkValidForFloodFill(id_x + 1, id_y))
-                floodFill(convertToValidID(id_x + 1, id_y), id_x + 1, id_y, colorToFill)
-            if (checkValidForFloodFill(id_x - 1, id_y))
-                floodFill(convertToValidID(id_x - 1, id_y), id_x - 1, id_y, colorToFill)
-            if (checkValidForFloodFill(id_x, id_y + 1))
-                floodFill(convertToValidID(id_x, id_y + 1), id_x, id_y + 1, colorToFill)
-            if (checkValidForFloodFill(id_x, id_y - 1))
-                floodFill(convertToValidID(id_x, id_y - 1), id_x, id_y - 1, colorToFill)
-        }
+    //ie the tile is already the color that needs to changed, we can skip this tile
+    if (colorOfCurrentTile === colorToBucketFillOver) {
+        tileToStartFloodFill.setAttribute('style', `background-color: ${getCurrentColor()};`);
+        // console.log(`recolor!  to ${currentColor}`)
+        if (checkValidForFloodFill(id_x + 1, id_y))
+            floodFill(convertToValidID(id_x + 1, id_y), id_x + 1, id_y, colorToBucketFillOver)
+        if (checkValidForFloodFill(id_x - 1, id_y))
+            floodFill(convertToValidID(id_x - 1, id_y), id_x - 1, id_y, colorToBucketFillOver)
+        if (checkValidForFloodFill(id_x, id_y + 1))
+            floodFill(convertToValidID(id_x, id_y + 1), id_x, id_y + 1, colorToBucketFillOver)
+        if (checkValidForFloodFill(id_x, id_y - 1))
+            floodFill(convertToValidID(id_x, id_y - 1), id_x, id_y - 1, colorToBucketFillOver)
+    }
+
     //no neeed to self shame
 }
 
