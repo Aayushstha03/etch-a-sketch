@@ -125,7 +125,7 @@ window.addEventListener("mouseup", () => {
     // console.log(event.button)
 });
 
-let currentColor = "white";
+let currentColor = "dark";
 let bucketFill = false;
 
 const tileRows = []; //array
@@ -153,7 +153,7 @@ function createBoard(boardSize) {
             tileRows[i].appendChild(tileCols[j]);
         }
     }
-    whiteBtn.setAttribute("style", `border: 3px solid black;`);
+    darkBtn.setAttribute("style", `border: 3px solid black;`);
     addEventListeners();
 }
 createBoard(boardSize); //game init
@@ -233,7 +233,14 @@ function mirrorYplot(id) {
         let id_y = parseInt(idComponents[1]);
         let recoloredTile = document.getElementById(convertToValidID(id_x, id_y + 2 * (axisOfReflection - id_y)));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+
+        if (mirrorX) {
+            recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y + 2 * (axisOfReflection - id_y)));
+            recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+        }
     }
+
+
 }
 
 function mirrorXplot(id) {
@@ -249,6 +256,11 @@ function mirrorXplot(id) {
 
         let recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+
+        if (mirrorY) {
+            recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y + 2 * (axisOfReflection - id_y)));
+            recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+        }
     }
 }
 
