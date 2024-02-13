@@ -213,22 +213,42 @@ function changeColorOnce(id) {
             `background-color: ${getCurrentColor()};`
         );
         if (mirrorY) mirrorYplot(id);
+        if (mirrorX) mirrorXplot(id);
         // console.log(`${id} color changed! `)
     }
 }
 
+//sorry i really bonked the axes because i was not expecting to add 
+// these features later on
+// its simple geometrix reflection but bonked af
 function mirrorYplot(id) {
     let axisOfReflection;
-    if (boardSize % 2 != 0) {
-        console.log(id)
+    if (boardSize % 2 == 0) {
+        //odd resolution of board
+        // console.log(id)
         axisOfReflection = parseInt(boardSize / 2);
-        console.log(axisOfReflection)
+        // console.log(axisOfReflection)
         let idComponents = String(id).split(",");
         let id_x = parseInt(idComponents[0]);
         let id_y = parseInt(idComponents[1]);
-        console.log(convertToValidID(id_x + (axisOfReflection - id_x), id_y))
 
-        let recoloredTile = document.getElementById(convertToValidID(id_x + (axisOfReflection - id_x), id_y));
+        let recoloredTile = document.getElementById(convertToValidID(id_x, id_y + 2 * (axisOfReflection - id_y)));
+        recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+    }
+}
+
+function mirrorXplot(id) {
+    let axisOfReflection;
+    if (boardSize % 2 == 0) {
+        //odd resolution of board
+        // console.log(id)
+        axisOfReflection = parseInt(boardSize / 2);
+        // console.log(axisOfReflection)
+        let idComponents = String(id).split(",");
+        let id_x = parseInt(idComponents[0]);
+        let id_y = parseInt(idComponents[1]);
+
+        let recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
     }
 }
@@ -236,10 +256,10 @@ function mirrorYplot(id) {
 function changeColor(id) {
     if (buttonPressed) {
         let recoloredTile = document.getElementById(id);
-        recoloredTile.setAttribute(
-            "style",
-            `background-color: ${getCurrentColor()};`
-        );
+        recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+        if (mirrorY) mirrorYplot(id);
+        if (mirrorX) mirrorXplot(id);
+
         // console.log(`${id}color changed! `)
     }
 }
