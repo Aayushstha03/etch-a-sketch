@@ -66,6 +66,7 @@ rainbowBtn.addEventListener("click", () => {
 const bucketFillBtn = document.getElementById("bucketFill");
 bucketFillBtn.addEventListener("click", () => {
     clearSelected();
+    clearSelectedAxis();
     //reset then set value as true lol
     bucketFill = true;
     bucketFillBtn.setAttribute(
@@ -77,6 +78,7 @@ bucketFillBtn.addEventListener("click", () => {
 let mirrorY = false;
 const mirrorYaxisBtn = document.getElementById("mirrorY");
 mirrorYaxisBtn.addEventListener("click", () => {
+    clearSelected();
     if (mirrorY === false) {
         mirrorY = true;
         console.log(mirrorY);
@@ -91,6 +93,7 @@ mirrorYaxisBtn.addEventListener("click", () => {
 let mirrorX = false;
 const mirrorXaxisBtn = document.getElementById("mirrorX");
 mirrorXaxisBtn.addEventListener("click", () => {
+    clearSelected();
     if (mirrorX == false) {
         mirrorX = !mirrorX;
         mirrorXaxisBtn.setAttribute("style", `border: 3px solid black;`);
@@ -208,10 +211,7 @@ function changeColorOnce(id) {
         floodFill(id, id_x, id_y, colorToBucketFillOver);
     } else {
         let recoloredTile = document.getElementById(id);
-        recoloredTile.setAttribute(
-            "style",
-            `background-color: ${getCurrentColor()};`
-        );
+        recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
         if (mirrorY) mirrorYplot(id);
         if (mirrorX) mirrorXplot(id);
         // console.log(`${id} color changed! `)
@@ -224,14 +224,13 @@ function changeColorOnce(id) {
 function mirrorYplot(id) {
     let axisOfReflection;
     if (boardSize % 2 == 0) {
-        //odd resolution of board
+        //even boardRes
         // console.log(id)
         axisOfReflection = parseInt(boardSize / 2);
         // console.log(axisOfReflection)
         let idComponents = String(id).split(",");
         let id_x = parseInt(idComponents[0]);
         let id_y = parseInt(idComponents[1]);
-
         let recoloredTile = document.getElementById(convertToValidID(id_x, id_y + 2 * (axisOfReflection - id_y)));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
     }
@@ -240,7 +239,7 @@ function mirrorYplot(id) {
 function mirrorXplot(id) {
     let axisOfReflection;
     if (boardSize % 2 == 0) {
-        //odd resolution of board
+        //even resolution of board
         // console.log(id)
         axisOfReflection = parseInt(boardSize / 2);
         // console.log(axisOfReflection)
@@ -368,6 +367,15 @@ function clearSelected() {
 
     bucketFillBtn.removeAttribute("style");
     bucketFill = false;
+}
+
+//clearing the axis selection 
+// as this is mutually exclusion to other buttons
+function clearSelectedAxis() {
+    mirrorXaxisBtn.removeAttribute("style");
+    mirrorYaxisBtn.removeAttribute("style");
+    mirrorX = false
+    mirrorY = false
 }
 
 function downloadImage() {
