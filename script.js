@@ -1,3 +1,6 @@
+// TODO Odd resolution axis reflection doesn't work 
+// add offwhite instead of white as color and set background as white  
+
 // VARIABLES AND DECLARATIONS
 //the board or div that houses the board
 const gameUI = document.querySelector("#gameUI");
@@ -8,7 +11,7 @@ let boardSize = 16;
 let buttonPressed = false; //handle click and drag to draw
 
 // COLOR TILE BUTTONS
-// TODO VERY VERY DRY CODE NEED TO OPTIMIZE!
+// TODO VERY VERY DRY CODE NEED TO OPTIMIZE!                                                     
 const redBtn = document.getElementById("red");
 redBtn.addEventListener("click", () => {
     clearSelected();
@@ -51,7 +54,7 @@ whiteBtn.addEventListener("click", () => {
 //EXCEPT FOR ERASER AND RAINBOW BUTTON
 const eraserBtn = document.getElementById("eraser");
 eraserBtn.addEventListener("click", () => {
-    currentColor = "white";
+    currentColor = "eraser";
     clearSelected();
     eraserBtn.setAttribute("style", `border: 3px solid black;`);
 });
@@ -149,7 +152,7 @@ function createBoard(boardSize) {
             else if (j >= 10 && i >= 10) tileCols[j].setAttribute("id", `${i},${j}`);
             //finish tile id
             tileCols[j].setAttribute("class", `tile`);
-            tileCols[j].setAttribute("style", `background-color: #ffffff;`);
+            tileCols[j].setAttribute("style", `background-color : #ffe4c4;`);
             tileRows[i].appendChild(tileCols[j]);
         }
     }
@@ -191,6 +194,7 @@ function getCurrentColor() {
     else if (currentColor === "blue") return "#118ab2";
     else if (currentColor === "dark") return "#073b4c";
     else if (currentColor === "white") return "#ffffff";
+    else if (currentColor === "eraser") return "#ffe4c4";
 }
 
 //coloring functions
