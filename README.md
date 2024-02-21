@@ -1,5 +1,19 @@
-# This is pixel art website made using Vanilla JS, HTML and CSS
+## This is pixel art website made using Vanilla JS, HTML and CSS
 
-![screenshot](https://i.imgur.com/DxK9uQW.png)
+![screenshot](https://i.imgur.com/RRsszTe.png)
 
-# The screenshot feature in the website is from : https://html2canvas.hertzen.com/
+### Resizable board
+
+- So you can increase or decrease the resolution of your art
+
+### Tools
+
+- eraser tool
+- mystery tool
+- bucketFill tool
+- X-axis reflection tool
+- Y-axis reflection tool
+- undo and redo (in progress)
+- screenshot tool that generates your completed art!
+
+  _The screenshot feature in the website is from : [html2canvas](https://html2canvas.hertzen.com)_
