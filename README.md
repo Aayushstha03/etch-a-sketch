@@ -1,6 +1,5 @@
 ## This is pixel art website made using Vanilla JS, HTML and CSS
 
-<!-- ![screenshot](https://i.imgur.com/RRsszTe.png) -->
 <img src="https://i.imgur.com/RRsszTe.png" alt="drawing" width="500"/>
 
 ### Resizable board
