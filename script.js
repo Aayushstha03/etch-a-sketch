@@ -158,6 +158,9 @@ function createBoard(boardSize) {
     }
     darkBtn.setAttribute("style", `border: 3px solid black;`);
     addEventListeners();
+
+    let mirrorY = false;
+    let mirrorX = false;
 }
 createBoard(boardSize); //game init
 
@@ -172,7 +175,6 @@ function resizeBoard() {
             boardSize = prompt("Invalid board size! please enter a valid resolution");
             if (boardSize >= 1 && boardSize <= 50) valid = true;
         }
-
     board.remove();
     createBoard(boardSize);
 }
@@ -235,11 +237,11 @@ function mirrorYplot(id) {
         let idComponents = String(id).split(",");
         let id_x = parseInt(idComponents[0]);
         let id_y = parseInt(idComponents[1]);
-        let recoloredTile = document.getElementById(convertToValidID(id_x, id_y + 2 * (axisOfReflection - id_y)));
+        let recoloredTile = document.getElementById(convertToValidID(id_x, (boardSize + 1) - id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
 
         if (mirrorX) {
-            recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y + 2 * (axisOfReflection - id_y)));
+            recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
             recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
         }
     }
@@ -258,11 +260,11 @@ function mirrorXplot(id) {
         let id_x = parseInt(idComponents[0]);
         let id_y = parseInt(idComponents[1]);
 
-        let recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y));
+        let recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
 
         if (mirrorY) {
-            recoloredTile = document.getElementById(convertToValidID(id_x + 2 * (axisOfReflection - id_x), id_y + 2 * (axisOfReflection - id_y)));
+            recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
             recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
         }
     }
