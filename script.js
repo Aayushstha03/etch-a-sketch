@@ -1,17 +1,18 @@
-// TODO Odd resolution axis reflection doesn't work 
 // add offwhite instead of white as color and set background as white  
 
 // VARIABLES AND DECLARATIONS
 //the board or div that houses the board
-const gameUI = document.querySelector("#gameUI");
+let gameUI = document.querySelector("#gameUI");
 //var that displays the size of the board
-const boardRes = document.getElementById("boardSize");
+let boardRes = document.getElementById("boardSize");
 //board and ui vars
 let boardSize = 16;
 let buttonPressed = false; //handle click and drag to draw
 
 // COLOR TILE BUTTONS
 // TODO VERY VERY DRY CODE NEED TO OPTIMIZE!                                                     
+//init stuff
+
 const redBtn = document.getElementById("red");
 redBtn.addEventListener("click", () => {
     clearSelected();
@@ -84,11 +85,9 @@ mirrorYaxisBtn.addEventListener("click", () => {
     clearSelected();
     if (mirrorY === false) {
         mirrorY = true;
-        console.log(mirrorY);
         mirrorYaxisBtn.setAttribute("style", `border: 3px solid black;`);
     } else if (mirrorY === true) {
         mirrorY = false;
-        console.log(mirrorY);
         mirrorYaxisBtn.removeAttribute("style");
     }
 });
@@ -130,13 +129,16 @@ window.addEventListener("mouseup", () => {
 
 let currentColor = "dark";
 let bucketFill = false;
+let tileRows = []; //array
+let tileCols = [];
 
-const tileRows = []; //array
-const tileCols = [];
+
 
 function createBoard(boardSize) {
+    tileRows = [];
+    tileCols = [];
     boardRes.textContent = `${boardSize} X ${boardSize}`;
-    const board = document.createElement("div");
+    let board = document.createElement("div");
     board.setAttribute("id", "board");
     gameUI.appendChild(board);
     for (let i = 1; i <= boardSize; i++) {
@@ -159,17 +161,15 @@ function createBoard(boardSize) {
     darkBtn.setAttribute("style", `border: 3px solid black;`);
     addEventListeners();
 
-    let mirrorY = false;
-    let mirrorX = false;
+    mirrorY = false;
+    mirrorX = false;
 }
-createBoard(boardSize); //game init
-
 // button that resizes the board
 // TODO to be replaced by a slider later on
 function resizeBoard() {
     let valid = false;
     boardSize = prompt("Enter the desired resolution (1<=x<=50)");
-    if (boardSize >= 1 && boardSize <= 50) valid = true;
+    if (boardSize >= 1 && boardSize <= 64) valid = true;
     else
         while (!valid) {
             boardSize = prompt("Invalid board size! please enter a valid resolution");
@@ -180,8 +180,8 @@ function resizeBoard() {
 }
 
 function addEventListeners() {
-    const tilesNodeList = document.querySelectorAll(".tile");
-    for (const tile of tilesNodeList) {
+    let tilesNodeList = document.querySelectorAll(".tile");
+    for (let tile of tilesNodeList) {
         let id = tile.getAttribute("id");
         tile.addEventListener("mousedown", () => changeColorOnce(id));
         tile.addEventListener("mouseover", () => changeColor(id));
@@ -227,46 +227,31 @@ function changeColorOnce(id) {
 //sorry i really bonked the axes because i was not expecting to add 
 // these features later on
 // its simple geometrix reflection but bonked af
+
+//fixed:)
 function mirrorYplot(id) {
-    let axisOfReflection;
-    if (boardSize % 2 == 0) {
-        //even boardRes
-        // console.log(id)
-        axisOfReflection = parseInt(boardSize / 2);
-        // console.log(axisOfReflection)
-        let idComponents = String(id).split(",");
-        let id_x = parseInt(idComponents[0]);
-        let id_y = parseInt(idComponents[1]);
-        let recoloredTile = document.getElementById(convertToValidID(id_x, (boardSize + 1) - id_y));
+    let idComponents = String(id).split(",");
+    let id_x = parseInt(idComponents[0]);
+    let id_y = parseInt(idComponents[1]);
+    console.log(id);
+    let recoloredTile = document.getElementById(convertToValidID(id_x, (boardSize + 1) - id_y));
+    console.log(recoloredTile);
+    recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+    if (mirrorX) { //both axis selected for reflection
+        recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
-
-        if (mirrorX) {
-            recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
-            recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
-        }
     }
-
-
 }
 
 function mirrorXplot(id) {
-    let axisOfReflection;
-    if (boardSize % 2 == 0) {
-        //even resolution of board
-        // console.log(id)
-        axisOfReflection = parseInt(boardSize / 2);
-        // console.log(axisOfReflection)
-        let idComponents = String(id).split(",");
-        let id_x = parseInt(idComponents[0]);
-        let id_y = parseInt(idComponents[1]);
-
-        let recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, id_y));
+    let idComponents = String(id).split(",");
+    let id_x = parseInt(idComponents[0]);
+    let id_y = parseInt(idComponents[1]);
+    let recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, id_y));
+    recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
+    if (mirrorY) { //both axes selected for reflectiion
+        recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
-
-        if (mirrorY) {
-            recoloredTile = document.getElementById(convertToValidID(boardSize + 1 - id_x, boardSize + 1 - id_y));
-            recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
-        }
     }
 }
 
@@ -276,7 +261,6 @@ function changeColor(id) {
         recoloredTile.setAttribute("style", `background-color: ${getCurrentColor()};`);
         if (mirrorY) mirrorYplot(id);
         if (mirrorX) mirrorXplot(id);
-
         // console.log(`${id}color changed! `)
     }
 }
@@ -413,3 +397,7 @@ function downloadImage() {
         canvas.remove();
     });
 }
+
+//actual driver code
+// initilization(); //load variables
+createBoard(boardSize); //game init
