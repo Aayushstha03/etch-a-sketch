@@ -173,7 +173,7 @@ function resizeBoard() {
     else
         while (!valid) {
             boardSize = prompt("Invalid board size! please enter a valid resolution");
-            if (boardSize >= 1 && boardSize <= 50) valid = true;
+            if (boardSize >= 1 && boardSize <= 64) valid = true;
         }
     board.remove();
     createBoard(boardSize);

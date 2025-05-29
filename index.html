@@ -15,30 +15,55 @@
   <div id="gameUI"></div>
   <div id="buttons">
     <div id="colors">
-      <div class="colorTile" id="red"></div>
-      <div class="colorTile" id="yellow"></div>
-      <div class="colorTile" id="green"></div>
-      <div class="colorTile" id="blue"></div>
-      <div class="colorTile" id="dark"></div>
-      <div class="colorTile" id="white"></div>
+      <div class="colorTile" id="red" title="Red: Draw with red color"></div>
+      <div class="colorTile" id="yellow" title="Yellow: Draw with yellow color"></div>
+      <div class="colorTile" id="green" title="Green: Draw with green color"></div>
+      <div class="colorTile" id="blue" title="Blue: Draw with blue color"></div>
+      <div class="colorTile" id="dark" title="Dark: Draw with dark blue color"></div>
+      <div class="colorTile" id="white" title="White: Draw with white color"></div>
     </div>
     <div id="boardButtons">
       <div class="firstRow">
-        <img class="colorTile" id="eraser" src="assets/eraser.svg" />
-        <img class="colorTile" id="rainbow" src="assets/rainbow.svg" />
-        <img class="colorTile" id="bucketFill" src="assets/bucket.svg" />
-        <img class="colorTile" id="mirrorX" src="assets/x-axis.svg" />
-        <img class="colorTile" id="mirrorY" src="assets/y-axis.svg" />
+        <img class="colorTile" id="eraser" src="assets/eraser.svg" title="Eraser: Remove color from tiles" />
+        <img class="colorTile" id="rainbow" src="assets/rainbow.svg" title="Rainbow: Draw with random colors" />
+        <img class="colorTile" id="bucketFill" src="assets/bucket.svg"
+          title="Bucket Fill: Fill an area with the selected color" />
+        <img class="colorTile" id="mirrorX" src="assets/x-axis.svg"
+          title="Mirror X: Draw symmetrically across the X axis" />
+        <img class="colorTile" id="mirrorY" src="assets/y-axis.svg"
+          title="Mirror Y: Draw symmetrically across the Y axis" />
       </div>
       <div class="secondRow">
-        <img class="colorTile" id="undo" src="assets/undo.svg" />
-        <img class="colorTile" id="redo" src="assets/redo.svg" />
-        <img class="colorTile" id="size" src="assets/resize.svg" />
-        <img class="colorTile" id="reset" src="assets/reset.svg" />
-        <img class="colorTile" id="camera" src="assets/camera.svg" />
+        <img class="colorTile disabled" id="undo" src="assets/undo.svg" title="Undo: To be implemented"
+          style="opacity: 0.5; pointer-events: none;" />
+        <img class="colorTile disabled" id="redo" src="assets/redo.svg" title="Redo: To be implemented"
+          style="opacity: 0.5; pointer-events: none;" />
+        <img class="colorTile" id="size" src="assets/resize.svg" title="Resize: Change the board size" />
+        <img class="colorTile" id="reset" src="assets/reset.svg" title="Reset: Clear the board" />
+        <img class="colorTile" id="camera" src="assets/camera.svg"
+          title="Screenshot: Download your drawing as an image" />
       </div>
     </div>
   </div>
+
+  <section id="features" style="margin-top:2em;">
+    <h2>Etch A Sketch App Features</h2>
+    <ul>
+      <li><strong>Color Selection:</strong> Choose from Red, Yellow, Green, Blue, Dark, White, and Rainbow to draw with
+        different colors.</li>
+      <li><strong>Eraser:</strong> Use the eraser tool to remove color from tiles.</li>
+      <li><strong>Bucket Fill:</strong> Fill an entire area of connected tiles with the selected color using the bucket
+        fill tool.</li>
+      <li><strong>Mirror Drawing:</strong> Enable mirror X or Y axis to draw symmetrical patterns automatically.</li>
+      <li><strong>Board Resize:</strong> Change the board size to your preference (up to 64x64) for more or less drawing
+        space.</li>
+      <li><strong>Reset:</strong> Clear the board and start fresh at any time.</li>
+      <li><strong>Screenshot:</strong> Download your current drawing as an image file.</li>
+      <li><strong>Click & Drag Drawing:</strong> Hold down the mouse button and drag to draw continuously.</li>
+      <li><strong>Rainbow Mode:</strong> Draw with randomly changing colors for a fun effect.</li>
+    </ul>
+    <p>Experiment with the tools and create your own pixel art!</p>
+  </section>
 </body>
 
 </html>
